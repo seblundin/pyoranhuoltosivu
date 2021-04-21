@@ -1,9 +1,20 @@
 const navChildren = document.getElementById('nav').children;
 const palikat = document.getElementsByClassName('palikka');
+const ham = document.getElementById('ham');
 
+function showburger() {
+  ham.removeEventListener('click', showburger);
+  document.getElementById('nav').style.display = 'block';
+  ham.addEventListener('click', hideburger);
+}
 
+function hideburger() {
+  ham.removeEventListener('click', hideburger);
+  document.getElementById('nav').style.display = 'none';
+  ham.addEventListener('click', showburger);
+}
 
-
+ham.addEventListener('click', showburger);
 
 
 for (let navChild of navChildren) {
