@@ -3,22 +3,40 @@
     box-sizing: border-box;
 }
 
+div {
+    display: none;
+    position: relative;
+    left: 250px;
+}
+#main {
+    display: block;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
 /*Navigation bar style*/
 .navigation {
+    display: block;
+}
+.navigation nav{
+    /*visibility: visible;*/
     height: 100%;
     width: 250px;
     position: fixed;
-    /*z-index: 1;*/
+    z-index: 1;
     margin: 0;
     padding: 0;
     top: 0;
     left: 0;
     background-color: #112d4e;
-    /*overflow-x: hidden;*/
+    overflow-x: hidden;
 }
 
 /*Navigation bar link style*/
-.navigation a {
+.navigation nav ul li {
     padding: 20px;
     display: block;
     color: #f9f7f7;
@@ -26,7 +44,7 @@
 }
 
 /*Navigation bar link style on hover*/
-.navigation a:hover {
+.navigation nav ul li:hover {
     background-color: #3f72af;
     color: black;
 }
