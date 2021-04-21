@@ -1,1 +1,43 @@
 /*tänne kiva tyyli*/
+* {
+    box-sizing: border-box;
+}
+
+/*Navigation bar style*/
+.navigation {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    /*z-index: 1;*/
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    background-color: #112d4e;
+    /*overflow-x: hidden;*/
+}
+
+/*Navigation bar link style*/
+.navigation a {
+    padding: 20px;
+    display: block;
+    color: #f9f7f7;
+    text-decoration: none;
+}
+
+/*Navigation bar link style on hover*/
+.navigation a:hover {
+    background-color: #3f72af;
+    color: black;
+}
+
+/*Background*/
+body {
+    background-color: #f9f7f7;
+}
+
+/*Värejä:
+#112d4e
+#3f72af
+#dbe2ef
+#f9f7f7*/
