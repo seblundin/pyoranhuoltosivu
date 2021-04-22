@@ -46,6 +46,7 @@ nav {
     z-index: 10;
     height: 100%;
     width: 20%;
+    max-width: 250px;
     margin: 0;
     padding: 0;
     top: 0;
@@ -80,6 +81,7 @@ nav ul li:hover {
 @media only screen and (max-width: 600px) {
     nav {
         height: fit-content;
+        max-width: revert;
         width: 100%;
     }
 
