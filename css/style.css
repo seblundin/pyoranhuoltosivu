@@ -1,108 +1,94 @@
+/*Asetetaan dokumentti täyttämään korkeudelta koko sivu, jotta sivupalkki ei katkea.*/
+html {
+    height: 100%;
+}
+
+/*Elementit asetellaan flexboxin avulla.*/
 body {
+    background-color: #f9f7f7;
     display: flex;
-    flex-flow: column;
+    flex-wrap: wrap;
+    height: 100%;
+    margin: 0;
 }
 
-* {
-    box-sizing: border-box;
-}
+/** {
+    box-sizing: content-box;
+}*/
 
+/*Kaikki sisältölaatikot oletuksena pois näkyvistä. Leveys on 80%.*/
 div {
     display: none;
+    width: 80%;
+    object-fit: cover;
 }
 
+/*Otetaan aloitussivu esiin.*/
 #main {
     display: block;
 }
 
+/*Poistetaan navigointipalkin listasta marginaalit ja padding.*/
 ul {
     padding: 0;
     margin: 0;
 }
 
+/*Poistetaan navigointipalkista turhat pisteet.*/
 li {
     list-style-type: none;
 }
 
-/*Navigation bar style*/
-.navigation {
-    display: block;
-    padding-left: 0;
-    width: 100%;
-    padding-bottom: 10px;
-}
-
-.navigation nav {
+/*Navigointipalkin listan tyyli.*/
+nav {
     background-color: #112d4e;
+    /*Lista aina etummaisena.*/
+    z-index: 10;
+    height: 100%;
+    width: 20%;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    /*overflow-x: hidden;*/
 }
 
+/*Mobiilivalikko aluksi pois näkyvistä.*/
 #ham {
     display: none;
 }
 
 label {
+    display: none;
     color: white;
 }
 
-#nav {
-    display: none;
-}
-
-/*Navigation bar link style*/
-.navigation nav ul li {
+/*Navigointipalkin linkkien tyyli.*/
+nav ul li {
     padding: 20px;
     color: #f9f7f7;
     text-decoration: none;
-    width: 100%;
 }
 
-/*Navigation bar link style on hover*/
-.navigation nav ul li:hover {
+/*Navigointipalkki hiirtä säikähtäessä.*/
+nav ul li:hover {
     background-color: #3f72af;
     color: black;
 }
 
-/*Background*/
-body {
-    background-color: #f9f7f7;
-}
-
-@media only screen and (min-width: 600px) {
-    .navigation {
-        padding-bottom: 0;
-    }
-    .navigation nav {
-        height: 100%;
-        width: 250px;
-        position: fixed;
-        z-index: 1;
-        margin: 0;
-        padding: 0;
-        top: 0;
-        left: 0;
-        overflow-x: hidden;
+/*Tarvittavat muutokset mobiililaitteille. Sivupalkki vaihtuu ylävalikkoon.*/
+@media only screen and (max-width: 600px) {
+    nav {
+        height: fit-content;
+        width: 100%;
     }
 
-    div {
-        padding-left: 250px;
-    }
-
-   #ham {
-       display: none;
-   }
-
+    /*Painikkeelle valittu symboli näkyviin.*/
     label {
-       display: none;
-   }
-
-   #nav {
-       display: block;
-   }
-
-    .navigation nav ul li {
         display: block;
     }
 }
+
 
 /*Värejä:
 #112d4e
