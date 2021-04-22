@@ -1,13 +1,15 @@
+'use strict';
+
 const navElement = document.getElementById('nav');
 const navChildren = navElement.children;
 const palikat = document.getElementsByClassName('palikka');
 const ham = document.getElementById('ham');
 
-
 /*Annetaan mobiilinäkymän navigointipalkin checkboxille tapahtumankuuntelija,
 * joka määrittää näkyykö valikon sisältöä vai ei.*/
 ham.addEventListener('click', function() {
-  if (ham.checked === false) {
+  console.log(ham.checked);
+  if (ham.checked === true) {
     navElement.style.display = 'block';
   } else {
     navElement.style.display = 'none';
@@ -24,24 +26,29 @@ for (let navChild of navChildren) {
     }
     /*Otetaan klikkausta vastaava div elementti esiin.*/
     switch (navChild.id) {
-      case 'l_1': document.getElementById('main').style.display = 'block';
-      break;
-      case 'l_2': document.getElementById('huolto').style.display = 'block';
-      break;
-      case 'l_3': document.getElementById('liikkeet').style.display = 'block';
-      break;
-      case 'l_4': document.getElementById('vuokra').style.display = 'block';
+      case 'l_1':
+        document.getElementById('main').style.display = 'block';
+        break;
+      case 'l_2':
+        document.getElementById('huolto').style.display = 'block';
+        break;
+      case 'l_3':
+        document.getElementById('liikkeet').style.display = 'block';
+        break;
+      case 'l_4':
+        document.getElementById('vuokra').style.display = 'block';
     }
   });
 }
 
 /*Varmistetaan, että navigointipalkin elementit pysyvät näkyvissä mobiilinäkymästä poistuttaessa.*/
-window.addEventListener("resize", function(evt) {
+window.addEventListener('resize', function(evt) {
   evt.preventDefault();
-  //Jos ikkunan koko on suurempi kuin 600px ja naviogintipalkkia ei ole näkyvissä, otetaan se näkyviin.
-  if (document.documentElement.clientWidth > 600 && navElement.style.display === 'none') {
+  let currentWidth = document.documentElement.clientWidth;
+  if (currentWidth > 600) {
     navElement.style.display = 'block';
-    //Resetoidaan checkboxin arvo.
     ham.checked = false;
+  } else {
+    navElement.style.display = 'none';
   }
 });

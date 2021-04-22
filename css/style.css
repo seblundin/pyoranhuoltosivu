@@ -16,11 +16,13 @@ body {
     box-sizing: content-box;
 }*/
 
-/*Kaikki sisältölaatikot oletuksena pois näkyvistä. Leveys on 80%.*/
+/*Kaikki sisältölaatikot oletuksena pois näkyvistä. Leveys on 85%.*/
 div {
     display: none;
-    width: 80%;
+    width: 85%;
     object-fit: cover;
+    position: relative;
+    left: 15%;
 }
 
 /*Otetaan aloitussivu esiin.*/
@@ -45,12 +47,13 @@ nav {
     /*Lista aina etummaisena.*/
     z-index: 10;
     height: 100%;
-    width: 20%;
-    max-width: 250px;
+    width: 15%;
+    min-width: 130px;
     margin: 0;
     padding: 0;
     top: 0;
     left: 0;
+    position: fixed;
     /*overflow-x: hidden;*/
 }
 
@@ -79,12 +82,20 @@ nav ul li:hover {
 
 /*Tarvittavat muutokset mobiililaitteille. Sivupalkki vaihtuu ylävalikkoon.*/
 @media only screen and (max-width: 600px) {
+
     nav {
         height: fit-content;
-        max-width: revert;
         width: 100%;
+
+    }
+    ul {
+        display: none;
     }
 
+    /*Siirretään sisältö vasempaan reunaan.*/
+    div {
+        left: 0;
+    }
     /*Painikkeelle valittu symboli näkyviin.*/
     label {
         display: block;
