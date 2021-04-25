@@ -44,11 +44,12 @@ for (let navChild of navChildren) {
 /*Varmistetaan, että navigointipalkin elementit pysyvät näkyvissä mobiilinäkymästä poistuttaessa.*/
 window.addEventListener('resize', function(evt) {
   evt.preventDefault();
-  let currentWidth = document.documentElement.clientWidth;
+  let currentWidth = window.innerWidth;
   if (currentWidth > 600) {
     navElement.style.display = 'block';
     ham.checked = false;
   } else {
+    console.log(currentWidth);
     navElement.style.display = 'none';
   }
 });

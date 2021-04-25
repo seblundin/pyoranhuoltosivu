@@ -1,45 +1,52 @@
 /*Asetetaan dokumentti täyttämään korkeudelta koko sivu, jotta sivupalkki ei katkea.*/
-html {
+html, body {
+    width: 100%;
     height: 100%;
+    display: flex;
+    /*Sisältö alkaa sivun yläpäästä, ei keskeltä.*/
+    align-content: flex-start;
+    flex-wrap: wrap;
+    font-family: Helvetica, sans-serif;
+    background-color: #f9f7f7;
 }
 
-/*Elementit asetellaan flexboxin avulla.*/
-body {
-    background-color: #f9f7f7;
-    display: flex;
-    flex-wrap: wrap;
+* {
     margin: 0;
     padding: 0;
-    font-family: Helvetica, sans-serif;
 }
 
-/** {
-    box-sizing: content-box;
-}*/
-
-/*Kaikki sisältölaatikot oletuksena pois näkyvistä*/
+/*Kaikki sisältölaatikot oletuksena pois näkyvistä. Sisällölle oletusasettelu.*/
 div {
     display: none;
-    padding-left: 15%;
+    /*flex-grow ja flex-shrink 1*/
+    flex: 1;
+    /*Sisältö asetellaan pystysuoraan.*/
+    flex-direction: column;
+    /*Vasemman puolen marginaali vastaa navigointipalkkia*/
+    margin-left: max(130px, 15%);
+    /*Keskitetään sisältöä hieman.*/
+    padding-inline: 15%;
+    /*Sopivat marginaalit, ettei esim teksti halaa sivupalkkia.*/
 }
 
-/* Sisältö ei näy sivua leveämpänä, eikä sivupalkki mene sen päälle: */
-div * {
-    max-width: 75vw;
-    padding-left: 40px;
-    padding-top: 20px;
+/*Sisällön otsikoiden muotoilu.*/
+h2 {
+    padding: 20px;
+    padding-left: 0;
+    color: #112d4e;
+    text-decoration: underline;
+    text-underline: #112d4e;
 }
 
+/*Kuvien muotoilu*/
+img {
+    max-width: 70%;
+    height: auto;
+}
 
 /*Otetaan aloitussivu esiin.*/
 #main {
     display: flex;
-}
-
-/*Poistetaan navigointipalkin listasta marginaalit ja padding.*/
-ul {
-    padding: 0;
-    margin: 0;
 }
 
 /*Poistetaan navigointipalkista turhat pisteet.*/
@@ -55,8 +62,7 @@ nav {
     height: 100%;
     width: 15%;
     min-width: 130px;
-    top: 0;
-    left: 0;
+    /*Navigointipalkki kulkee mukana skrollatessa.*/
     position: fixed;
 }
 
@@ -72,47 +78,41 @@ label {
 }
 
 /*Navigointipalkin linkkien tyyli.*/
-nav ul li {
+/*nav ul*/
+li {
     padding: 20px;
     color: #f9f7f7;
     text-decoration: none;
 }
 
 /*Navigointipalkki hiirtä säikähtäessä.*/
-nav ul li:hover {
+/*nav ul*/
+li:hover {
     background-color: #3f72af;
-    color: black;
+    color: #112d4e;
 }
 
-
 /*Tarvittavat muutokset mobiililaitteille. Sivupalkki vaihtuu ylävalikkoon.*/
-@media only screen and (max-width: 600px) {
-
-    body {
-        height: 95vh;
-        flex-flow: column wrap;
-    }
+@media all and (max-width: 600px) {
     nav {
         width: 100%;
-        height: auto;
+        height: fit-content;
     }
+
+    img {
+        max-width: 100%;
+    }
+
+    /*Valikko oletuksena poissa näkyvistä, ettei mobiilikäyttäjän näyttö ole heti täynnä tavaraa.*/
     ul {
         display: none;
     }
 
-    /*Siirretään sisältö vasempaan reunaan.*/
+    /*Otsikot keskellä. Oikeanlaiset marginaalit asettelulle.*/
     div {
-        flex-flow: column wrap;
-        padding-left: 0;
-        padding-top: 10px;
-    }
-
-    div * {
-        padding-left: 10px;
-    }
-
-    div p {
-        padding-top: 10px;
+        align-items: center;
+        margin-left: 0;
+        margin-top: 5%;
     }
 
     /*Painikkeelle valittu symboli näkyviin.*/
@@ -122,7 +122,8 @@ nav ul li:hover {
 }
 
 
-/*Värejä:
+/*
+Värejä:
 #112d4e
 #3f72af
 #dbe2ef
