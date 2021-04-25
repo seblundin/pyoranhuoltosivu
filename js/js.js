@@ -27,16 +27,16 @@ for (let navChild of navChildren) {
     /*Otetaan klikkausta vastaava div elementti esiin.*/
     switch (navChild.id) {
       case 'l_1':
-        document.getElementById('main').style.display = 'block';
+        document.getElementById('main').style.display = 'flex';
         break;
       case 'l_2':
-        document.getElementById('huolto').style.display = 'block';
+        document.getElementById('huolto').style.display = 'flex';
         break;
       case 'l_3':
-        document.getElementById('liikkeet').style.display = 'block';
+        document.getElementById('liikkeet').style.display = 'flex';
         break;
       case 'l_4':
-        document.getElementById('vuokra').style.display = 'block';
+        document.getElementById('vuokra').style.display = 'flex';
     }
   });
 }
