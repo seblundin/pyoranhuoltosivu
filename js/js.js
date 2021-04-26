@@ -33,7 +33,7 @@ for (let navChild of navChildren) {
         document.getElementById('huolto').style.display = 'flex';
         break;
       case 'l_3':
-        document.getElementById('liikkeet').style.display = 'flex';
+        document.getElementById('video').style.display = 'flex';
         break;
       case 'l_4':
         document.getElementById('vuokra').style.display = 'flex';

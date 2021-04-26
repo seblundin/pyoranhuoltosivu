@@ -25,8 +25,12 @@ div {
     /*Vasemman puolen marginaali vastaa navigointipalkkia*/
     margin-left: max(130px, 15%);
     /*Keskitetään sisältöä hieman.*/
-    padding-inline: 15%;
-    /*Sopivat marginaalit, ettei esim teksti halaa sivupalkkia.*/
+    padding-inline: 20%;
+    align-items: center;
+}
+
+p {
+    padding-block: 20px;
 }
 
 /*Sisällön otsikoiden muotoilu.*/
@@ -40,8 +44,24 @@ h2 {
 
 /*Kuvien muotoilu*/
 img {
-    max-width: 70%;
+    max-width: 100%;
     height: auto;
+}
+
+.embeddedVideo {
+    display: block;
+    margin: 0;
+    padding-inline: 50%;
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+}
+.embeddedVideo iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 /*Otetaan aloitussivu esiin.*/
@@ -52,6 +72,7 @@ img {
 /*Poistetaan navigointipalkista turhat pisteet.*/
 li {
     list-style-type: none;
+    font-weight: bold;
 }
 
 /*Navigointipalkin listan tyyli.*/
@@ -99,10 +120,6 @@ li:hover {
         height: fit-content;
     }
 
-    img {
-        max-width: 100%;
-    }
-
     /*Valikko oletuksena poissa näkyvistä, ettei mobiilikäyttäjän näyttö ole heti täynnä tavaraa.*/
     ul {
         display: none;
@@ -110,9 +127,9 @@ li:hover {
 
     /*Otsikot keskellä. Oikeanlaiset marginaalit asettelulle.*/
     div {
-        align-items: center;
         margin-left: 0;
         margin-top: 5%;
+        padding-inline: 20px;
     }
 
     /*Painikkeelle valittu symboli näkyviin.*/
