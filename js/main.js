@@ -49,7 +49,6 @@ window.addEventListener('resize', function(evt) {
     navElement.style.display = 'block';
     ham.checked = false;
   } else {
-    console.log(currentWidth);
     navElement.style.display = 'none';
   }
 });

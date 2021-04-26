@@ -56,12 +56,19 @@ img {
     padding-bottom: 56.25%; /* 16:9 */
     height: 0;
 }
+
 .embeddedVideo iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 650px;
+    border: 0;
 }
 
 /*Otetaan aloitussivu esiin.*/
