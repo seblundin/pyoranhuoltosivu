@@ -29,13 +29,18 @@ div {
     align-items: center;
 }
 
+/* Tekstien muotoilua: */
 p {
     padding-block: 20px;
 }
 
 .subtext {
-    padding-top: 10px;
+    padding-top: 4px;
     font-size: 14px;
+}
+
+#huom {
+    padding-top: 5px;
 }
 
 /*Sisällön otsikoiden muotoilu.*/
@@ -51,6 +56,10 @@ h2 {
 img {
     max-width: 100%;
     height: auto;
+}
+
+#komposiitti {
+    padding-bottom: 20px;
 }
 
 /* Upotettujen videoiden muotoilu */
@@ -79,6 +88,7 @@ iframe {
     width: 100%;
     height: 650px;
     border: 0;
+    padding-bottom: 0;
 }
 
 /*Otetaan aloitussivu esiin.*/
