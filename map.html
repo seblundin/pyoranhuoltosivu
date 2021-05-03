@@ -17,9 +17,16 @@
 </head>
 <body>
 <form>
+    <input type="radio" id="kaikki">
+    <label for="kaikki">Kaikki pyörät</label><br>
+    <input type="radio" id="reitti">
+    <label for="reitti">Reittihaku</label><br>
+</form>
+<form id="haku">
     <input id="paikkakunta" type="text" placeholder="Syötä paikannimi"/>
     <button id="hakunappi">Hae</button>
 </form>
+
 <div id="mapid"></div>
 <script src="js/mapController.js"></script>
 </body>

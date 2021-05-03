@@ -4,11 +4,26 @@ var map = L.map('mapid').setView([60.22, 24.92846], 11);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
-var routeGroup = L.layerGroup().addTo(map);
+const routeGroup = L.layerGroup().addTo(map);
+const allStationsGroup = L.layerGroup().addTo(map);
 
 //viittaus nappiin
 const nappi = document.getElementById('hakunappi');
-nappi.addEventListener('click', haeTiedot);
+const hakuelementti = document.getElementById('haku');
+
+document.getElementById('reitti').addEventListener('click', event => {
+      event.preventDefault();
+      allStationsGroup.clearLayers();
+      hakuelementti.style.display = 'block';
+      nappi.addEventListener('click', haeTiedot);
+    },
+);
+document.getElementById('kaikki').addEventListener('click', event => {
+      hakuelementti.style.display = 'none';
+      event.preventDefault();
+      allBikes();
+    },
+);
 
 let latitude = null;
 let longitude = null;
@@ -28,11 +43,13 @@ function error(error) {
 }
 
 /*graphql request for stop data*/
-/*fetch('https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql', {
-  method: 'POST',
-  headers: {'Content-Type': 'application/json'},
-  body: JSON.stringify({
-    query: `
+function allBikes() {
+  console.log('allbikes funktio');
+  fetch('https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      query: `
     {
       bikeRentalStations {
         name
@@ -43,19 +60,20 @@ function error(error) {
         lon
       }
     }`,
-  }),
-}).then(res => res.json()).then(res => {
-  //console.log(res.data.bikeRentalStations);
-  res.data.bikeRentalStations.forEach(station => {
-    //console.log(station.lon, station.lat);
-    L.marker([station.lat, station.lon]).
-        addTo(map).
-        bindPopup(
-            `Name: ${station.name}, available: ${station.bikesAvailable}`);
+    }),
+  }).then(res => res.json()).then(res => {
+    //console.log(res.data.bikeRentalStations);
+    res.data.bikeRentalStations.forEach(station => {
+      //console.log(station.lon, station.lat);
+      L.marker([station.lat, station.lon]).
+          addTo(allStationsGroup).
+          bindPopup(
+              `Name: ${station.name}, available: ${station.bikesAvailable}`);
+    });
   });
-});*/
-
-//L.marker([60.22, 24.92846]).addTo(map);
+  nappi.removeEventListener('click', allBikes);
+  //L.marker([60.22, 24.92846]).addTo(map);
+}
 
 function haeTiedot(evt) {
   evt.preventDefault();
@@ -159,7 +177,7 @@ function haeTiedot(evt) {
                   addTo(routeGroup).openPopup();
             } else {
               L.marker([leg.to.lat, leg.to.lon]).
-                  bindPopup(`<b>${leg.to.name}</b>`).
+                  bindPopup('<b>Määränpää</b>').
                   addTo(routeGroup);
             }
 
@@ -190,6 +208,8 @@ function haeTiedot(evt) {
       document.getElementById('tulos').innerText = 'Haku epäonnistui.';
     }
   }
+
+  nappi.removeEventListener('click', haeTiedot);
 
   /*L.Routing.control({
     waypoints: [
