@@ -4,14 +4,6 @@
     <meta charset="UTF-8">
     <title>Pyöräkuntoon</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-          crossorigin=""/>
-
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-            crossorigin=""></script>
 </head>
 <body>
 <nav>
@@ -32,51 +24,64 @@
                 title="YouTube video player" allow="accelerometer; autoplay;
             clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
-    <a class="subtext" href="https://drive.google.com/file/d/1l5MYWtCvqpmoN4255x6Yph2dm_qu8KNC/view?usp=sharing">Kuvakäsikirjoitus</a>
-    <p>Nettisivumme tarkoituksena on tarjota hyvä ohjepankki pyörän keväthuoltoon, sekä karttapalvelu lähimmän
+    <details>
+        <summary>Videon tiedot (paina tästä)</summary>
+        <audio controls>
+            <source src="audio/kevätjateppo.mp3" type="audio/mpeg">
+            Your browser does not support the audio tag.
+        </audio>
+        <a class="subtext" href="https://drive.google.com/file/d/1l5MYWtCvqpmoN4255x6Yph2dm_qu8KNC/view?usp=sharing">Kuvakäsikirjoitus</a>
+        <a class="subtext" href="https://drive.google.com/file/d/1rg330owDKa6aI3BrNdIv2HibcyGpcyZQ/view?usp=sharing">Kohderyhmän
+            määrittely</a>
+    </details>
+    <br><br>
+    <p>Nettisivumme tarkoituksena on tarjota hyvä ohjepankki pyörän keväthuoltoon sekä karttapalvelu lähimmän
         vuokrapyörän löytämiseksi. Sivustollamme navigoidaan vasemmalla olevan valikon avulla. Mukavia
         pyöränhuoltohetkiä!</p>
 </div>
 <div class="palikka" id="huolto">
     <h2>1. Pyörän pesu</h2>
     <img src="images/saippua_1280.jpg" alt="soap">
-    <p>Puhdista pyörän runko joka paikasta miedolla saippuavedellä. Jos tässä vaiheessa huomaa jotain rikkinäistä
-        pyörässä, ei rikkinäistä
-        osaa kannata turhaan pestä. Isoimmat roskat kannattaa pyyhkäistä pois liinalla tai paperilla
-        jo ennen saippuavedellä pyyhkimistä. Rungon lisäksi myös vanteet on hyvä pyyhkiä saippuavedellä.
+    <p>Pyyhkäise aluksi isoimmat roskat pyörän rungosta liinalla tai paperilla. Puhdista sitten runko joka paikasta
+        miedolla saippuavedellä. Jos tässä vaiheessa huomaat jotakin olevan
+        pyörässä rikki, ei rikkinäistä
+        osaa kannata turhaan pestä. Rungon lisäksi myös vanteet on hyvä pyyhkiä saippuavedellä.
         <br><br>
         Kun pyörä on pääasiallisesti puhdistettu saippuavedellä, on edessä työläin mutta
-        tärkein osuus, eli
-        voimansiirron puhdistaminen, jolloin rattaat puhdistetaan ketjujen lisäksi sopivalla liuottimella. Ketjun voi
+        tärkein osuus:
+        voimansiirron puhdistaminen, jossa rattaat puhdistetaan ketjujen lisäksi sopivalla liuottimella. Ketjut voi
         puhdistaa ketjupesurilla
-        tai esimerkiksi laittamalla sen rasiaan liuottimen kanssa ja ravistamalla. Tämä operaatio kannattaa toistaa
-        muutaman kerran. Puhtaan ketjun
-        on hyvä antaa kuivua, jotta liuottimet haihtuvat pois, ennen kuin niveliin laitetaan uusi öljy. Ylimääräinen
+        tai esimerkiksi laittamalla ne rasiaan liuottimen kanssa ja ravistamalla huolellisesti. Tämä operaatio kannattaa
+        toistaa
+        muutaman kerran. Puhtaiden ketjujen
+        on hyvä antaa kuivua, jotta liuottimet haihtuvat pois ennen kuin niveliin laitetaan uusi öljy. Ylimääräinen
         öljy pyyhitään rätillä pois.</p>
 
     <h2>2. Renkaat</h2>
     <img src="images/pyora_1280.jpg" alt="bicycle">
-    <p>Ensimmäisenä kannattaa tarkistaa, että renkaiden kuviointi ei ole kulunut pois, eli toisin sanoen, että renkaat
-        ovat vielä ajokunnossa. Jos renkaat ovat käyttökelpoiset eikä niissä ole reikiä, täytetään ne ilmalla.
+    <p>Renkaita huoltaessa ensimmäisenä kannattaa tarkistaa se, että renkaiden kuviointi ei ole kulunut pois, eli toisin
+        sanoen, ovatko renkaat
+        vielä ajokunnossa vai eivät. Jos renkaat ovat käyttökelpoiset eikä niissä ole reikiä, täytetään ne ilmalla.
         Talvirenkaat
-        vaihdetaan tietysti pois jos sellaiset on alla.</p>
+        vaihdetaan tietysti kesärenkaisiin, jos sellaiset on alla.</p>
 
     <h2>3. Vanteet ja pinnat</h2>
     <img src="images/rim_1280.jpg" alt="rim">
-    <p>Katso että vanteet eivät ole kovin käyrät tai kolhuilla. Varsinkin palajarrujen kanssa on tärkeää, että vanne
+    <p>Tarkista, että vanteet eivät ole kovin käyrät tai kolhuilla. Varsinkin palajarrujen kanssa on tärkeää, että vanne
         ei vietä liikaa oikealle tai vasemmalle. Katso myös, että pinnat ovat tarpeeksi kireällä ja että kaikki pinnat
         ovat ehjiä.
         Pinnat soivat suunnilleen samalla taajuudella niitä napauttaessa ideaalitilanteessa. Jos pinnojen kanssa on
-        ongelmia
+        ongelmia,
         eikä pyöränhuollosta ole suurempaa kokemusta, kannattaa suosiolla kilauttaa kaverille tai huoltoliikkeeseen.
         Pinnojen
         kiristys on haastava toimenpide.</p>
 
     <h2>4. Jarrut</h2>
     <img src="images/lever_1280.jpg" alt="lever">
-    <p>Tarkista että jarrulevyt tai -palat eivät ole liian kuluneet. Kuluneet osat vaihdetaan uusiin. Tarkista myös,
+    <p>Tarkista, että jarrulevyt tai -palat eivät ole liian kuluneet. Kuluneet jarrut tunnistat siitä, että
+        kulutuspintaa ei ole enää jäljellä. Kuluneet osat vaihdetaan uusiin. Tarkista myös,
         että
-        jarrut ovat tarpeeksi kireällä, eivätkä jarruvaijerit ole kuluneet. Jos jarruvaijerissa on yksikin säie poikki
+        jarrut ovat tarpeeksi kireällä, eivätkä jarruvaijerit ole rispaantuneet. Jos jarruvaijerissa on yksikin säie poikki,
         se
         kannattaa suosiolla vaihtaa ehjään.</p>
 
@@ -104,6 +109,14 @@
     <h2>3. Vanteet ja pinnat</h2>
     <div class="embeddedVideo">
         <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/tu4Q2nuzffY"
+                title="YouTube video player" allow="accelerometer; autoplay;
+            clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <br><br><br>
+
+    <h2>4. Jarrut</h2>
+    <div class="embeddedVideo">
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/La3AUW9iMhs"
                 title="YouTube video player" allow="accelerometer; autoplay;
             clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>

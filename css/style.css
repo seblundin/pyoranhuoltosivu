@@ -87,6 +87,12 @@ iframe {
     width: 100%;
     height: 100%;
 }
+details {
+    align-self: start;
+}
+details a{
+    padding-right: 20px;
+}
 
 #map {
     width: 100%;

@@ -204,7 +204,7 @@ function haeTiedot(evt) {
 
           let leg_polyline = L.polyline([],
               {
-                color: '#FF0000',
+                color: '#' + Math.floor(Math.random()*16777215).toString(16),
                 weight: 7,
               }).bindPopup(content).addTo(routeGroup);
 
