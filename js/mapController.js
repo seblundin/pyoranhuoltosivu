@@ -10,17 +10,18 @@ const allStationsGroup = L.layerGroup().addTo(map);
 //viittaus nappiin
 const nappi = document.getElementById('hakunappi');
 const hakuelementti = document.getElementById('haku');
+nappi.addEventListener('click', haeTiedot);
 
 document.getElementById('reitti').addEventListener('click', event => {
       event.preventDefault();
       allStationsGroup.clearLayers();
       hakuelementti.style.display = 'block';
-      nappi.addEventListener('click', haeTiedot);
     },
 );
 document.getElementById('kaikki').addEventListener('click', event => {
-      hakuelementti.style.display = 'none';
       event.preventDefault();
+      routeGroup.clearLayers();
+      hakuelementti.style.display = 'none';
       allBikes();
     },
 );
@@ -44,7 +45,6 @@ function error(error) {
 
 /*graphql request for stop data*/
 function allBikes() {
-  console.log('allbikes funktio');
   fetch('https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -71,7 +71,6 @@ function allBikes() {
               `Name: ${station.name}, available: ${station.bikesAvailable}`);
     });
   });
-  nappi.removeEventListener('click', allBikes);
   //L.marker([60.22, 24.92846]).addTo(map);
 }
 
@@ -170,27 +169,32 @@ function haeTiedot(evt) {
           content += ' -> ';
           content += leg.to.name;
 
-          if (leg.mode === 'WALK') {
-            if (leg.from.name === 'Origin') {
-              L.marker([leg.from.lat, leg.from.lon]).
-                  bindPopup('<b>Lähtöpiste</b>').
-                  addTo(routeGroup).openPopup();
-            } else {
-              L.marker([leg.to.lat, leg.to.lon]).
-                  bindPopup('<b>Määränpää</b>').
-                  addTo(routeGroup);
-            }
+          let marker1 = L.marker([leg.from.lat, leg.from.lon]);
+          let marker2 = L.marker([leg.to.lat, leg.to.lon]);
 
-          } else {
-            L.marker([leg.from.lat, leg.from.lon]).
+          if (!(leg.from.bikeRentalStation === null)) {
+            marker1.
                 bindPopup(
-                    `<b>${leg.from.name}</b><br/>(Kaupunkipyöräasema)<br/>Pyöriä: ${leg.from.bikeRentalStation.bikesAvailable}`).
+                    `<b>${leg.from.name}</b><br/>Kaupunkipyöräasema<br/>Pyöriä: ${leg.from.bikeRentalStation.bikesAvailable}`).
                 addTo(routeGroup);
-            L.marker([leg.to.lat, leg.to.lon]).
+          } else {
+            marker1.
                 bindPopup(
-                    `<b>${leg.to.name}</b><br/>(Kaupunkipyöräasema)<br/>Pyöriä: ${leg.to.bikeRentalStation.bikesAvailable}`).
+                    `<b>${leg.from.name}</b>`).
                 addTo(routeGroup);
           }
+          if (!(leg.to.bikeRentalStation === null)) {
+            marker2.
+                bindPopup(
+                    `<b>${leg.to.name}</b><br/>Kaupunkipyöräasema<br/>Pyöriä: ${leg.to.bikeRentalStation.bikesAvailable}`).
+                addTo(routeGroup);
+          } else {
+            marker2.
+                bindPopup(
+                    `<b>${leg.to.name}</b>`).
+                addTo(routeGroup);
+          }
+
 
           let leg_polyline = L.polyline([],
               {
@@ -208,8 +212,6 @@ function haeTiedot(evt) {
       document.getElementById('tulos').innerText = 'Haku epäonnistui.';
     }
   }
-
-  nappi.removeEventListener('click', haeTiedot);
 
   /*L.Routing.control({
     waypoints: [
