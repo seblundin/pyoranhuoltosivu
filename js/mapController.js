@@ -2,7 +2,7 @@
 
 var map = L.map('mapid').setView([60.22, 24.92846], 11);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+  attribution: 'Map data from: &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> and &copy; <a href="https://digitransit.fi">Helsinki Region Transport</a>',
 }).addTo(map);
 const routeGroup = L.layerGroup().addTo(map);
 const allStationsGroup = L.layerGroup().addTo(map);
@@ -12,12 +12,15 @@ const nappi = document.getElementById('hakunappi');
 const hakuelementti = document.getElementById('haku');
 nappi.addEventListener('click', haeTiedot);
 
+/*Reittihakuvalintaan kartan asettavan radiobuttonin event listener*/
 document.getElementById('reitti').addEventListener('click', event => {
       event.preventDefault();
       allStationsGroup.clearLayers();
       hakuelementti.style.display = 'block';
     },
 );
+
+/*Vuokrapyörälistaukseen kartan asettavan radiobuttonin event listener*/
 document.getElementById('kaikki').addEventListener('click', event => {
       event.preventDefault();
       routeGroup.clearLayers();
@@ -28,8 +31,10 @@ document.getElementById('kaikki').addEventListener('click', event => {
 
 let latitude = null;
 let longitude = null;
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(success, error);
+function locateUser() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
 }
 
 function success(position) {
@@ -41,6 +46,9 @@ function success(position) {
 
 function error(error) {
   console.log(error);
+  if (latitude === null || longitude === null) {
+    alert('Hyväksy sijainnin jakaminen, jos haluat käyttää reittihakupalvelua.');
+  }
 }
 
 /*graphql request for stop data*/
@@ -68,7 +76,7 @@ function allBikes() {
       L.marker([station.lat, station.lon]).
           addTo(allStationsGroup).
           bindPopup(
-              `Name: ${station.name}, available: ${station.bikesAvailable}`);
+              `<b>${station.name}</b><br/>Pyöriä: ${station.bikesAvailable}`);
     });
   });
   //L.marker([60.22, 24.92846]).addTo(map);
@@ -76,6 +84,7 @@ function allBikes() {
 
 function haeTiedot(evt) {
   evt.preventDefault();
+  locateUser();
 
   //haetaan paikkakunta elementistä
   const paikkakunta = document.getElementById('paikkakunta').value;
@@ -106,8 +115,6 @@ function haeTiedot(evt) {
 
       /*Resetoidaan reittimerkinnät*/
       routeGroup.clearLayers();
-
-      //map.flyTo(L.latLng(lat, lon), 14);
 
       /*Apipyyntö */
       fetch('https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql', {
@@ -160,7 +167,6 @@ function haeTiedot(evt) {
       }`,
         }),
       }).then(res => res.json()).then(res => {
-        //console.log(res);
         res.data.plan.itineraries[0].legs.forEach(leg => {
           console.log(leg);
           let content = new Date(leg.startTime).toLocaleTimeString() +
@@ -212,17 +218,5 @@ function haeTiedot(evt) {
       document.getElementById('tulos').innerText = 'Haku epäonnistui.';
     }
   }
-
-  /*L.Routing.control({
-    waypoints: [
-      L.latLng(latitude, longitude),
-      L.latLng(targetLat, targetLon),
-    ],
-  }).addTo(map);*/
-
-  //console.log(paikkakunta + " toimiiko");
-
-  //console.log(uri);
-
 }
 
