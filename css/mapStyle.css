@@ -9,3 +9,11 @@ body {
 #haku {
     display: none;
 }
+
+button {
+    width: 100px;
+}
+
+#hakunappi {
+    width: fit-content;
+}
