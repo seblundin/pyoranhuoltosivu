@@ -1,6 +1,6 @@
 'use strict';
 
-var map = L.map('mapid').setView([60.22, 24.92846], 11);
+const map = L.map('mapid').setView([60.22, 24.92846], 11);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
   attribution: 'Map data from: &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> and &copy; <a href="https://digitransit.fi">Helsinki Region Transport</a>',
 }).addTo(map);
@@ -31,6 +31,7 @@ document.getElementById('kaikki').addEventListener('click', event => {
 
 let latitude = null;
 let longitude = null;
+
 function locateUser() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(success, error);
@@ -47,7 +48,8 @@ function success(position) {
 function error(error) {
   console.log(error);
   if (latitude === null || longitude === null) {
-    alert('Hyväksy sijainnin jakaminen, jos haluat käyttää reittihakupalvelua.');
+    alert(
+        'Hyväksy sijainnin jakaminen, jos haluat käyttää reittihakupalvelua.');
   }
 }
 
@@ -95,128 +97,124 @@ function haeTiedot(evt) {
 
   const uri3 = 'https://api.openweathermap.org/data/2.5/weather?q=' +
       paikkakunta + '&appid=' + apikey;
+  const uri4 = 'https://nominatim.openstreetmap.org/?addressdetails=1&q=' + paikkakunta + '&format=json&limit=1'
 
   let targetLat = null;
   let targetLon = null;
 
-  fetch(uri3)
+  fetch(uri4)
       //kun saadaan vastaus kutsutaan json metodia mikä tekee siitä javascriptin tietorakenteen
       .then(vastaus => vastaus.json())
-      //kun saadaan json metodin palauttama javascript oli, annetaan se parametrina metodille showResult
-      .then(json => naytaTulos2(json)).catch(error => console.log(error));
+      .then(json => naytaTulos2(json))
+      .catch(error => console.log(error));
 
   function naytaTulos2(json) {
-    //console.log(json);
-    if (json.cod === 200) {
+    //console.log(json[0]);
 
-      /*Asetetaan koordinaatit tavoitesijainnille*/
-      targetLat = json.coord.lat;
-      targetLon = json.coord.lon;
+    /*Asetetaan koordinaatit tavoitesijainnille*/
+    targetLat = json[0].lat;
+    targetLon = json[0].lon;
 
-      /*Resetoidaan reittimerkinnät*/
-      routeGroup.clearLayers();
+    /*Resetoidaan reittimerkinnät*/
+    routeGroup.clearLayers();
 
-      /*Apipyyntö */
-      fetch('https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          query: `
-      {
-        plan(
-          from: {lat: ${latitude}, lon: ${longitude}},
-          to: {lat: ${targetLat}, lon: ${targetLon}},
-          numItineraries: 1,
-          transportModes: [{mode: BICYCLE, qualifier: RENT}, {mode: WALK}]
-        ) {
-          itineraries{
-            walkDistance
-            duration
-            legs {
-              mode
-              startTime
-              endTime
-              from {
-                lat
-                lon
+    /*Apipyyntö */
+    fetch('https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        query: `
+    {
+      plan(
+        from: {lat: ${latitude}, lon: ${longitude}},
+        to: {lat: ${targetLat}, lon: ${targetLon}},
+        numItineraries: 1,
+        transportModes: [{mode: BICYCLE, qualifier: RENT}, {mode: WALK}]
+      ) {
+        itineraries{
+          walkDistance
+          duration
+          legs {
+            mode
+            startTime
+            endTime
+            from {
+              lat
+              lon
+              name
+              bikeRentalStation {
+                stationId
                 name
-                bikeRentalStation {
-                  stationId
-                  name
-                  bikesAvailable
-                }
+                bikesAvailable
               }
-              to {
-                lat
-                lon
+            }
+            to {
+              lat
+              lon
+              name
+              bikeRentalStation {
+                stationId
                 name
-                bikeRentalStation {
-                  stationId
-                  name
-                  bikesAvailable
-                }
+                bikesAvailable
               }
-              distance
-              legGeometry {
-                length
-                points
-              }
+            }
+            distance
+            legGeometry {
+              length
+              points
             }
           }
         }
-      }`,
-        }),
-      }).then(res => res.json()).then(res => {
-        res.data.plan.itineraries[0].legs.forEach(leg => {
-          console.log(leg);
-          let content = new Date(leg.startTime).toLocaleTimeString() +
-              ' - ' + new Date(leg.endTime).toLocaleTimeString() + ':<br/>';
-          content += leg.from.name;
-          content += ' -> ';
-          content += leg.to.name;
+      }
+    }`,
+      }),
+    }).then(res => res.json()).then(res => {
+      res.data.plan.itineraries[0].legs.forEach(leg => {
+        console.log(leg);
+        let content = new Date(leg.startTime).toLocaleTimeString() +
+            ' - ' + new Date(leg.endTime).toLocaleTimeString() + ':<br/>';
+        content += leg.from.name;
+        content += ' -> ';
+        content += leg.to.name;
 
-          let marker1 = L.marker([leg.from.lat, leg.from.lon]);
-          let marker2 = L.marker([leg.to.lat, leg.to.lon]);
+        let marker1 = L.marker([leg.from.lat, leg.from.lon]);
+        let marker2 = L.marker([leg.to.lat, leg.to.lon]);
 
-          if (!(leg.from.bikeRentalStation === null)) {
-            marker1.
-                bindPopup(
-                    `<b>${leg.from.name}</b><br/>Kaupunkipyöräasema<br/>Pyöriä: ${leg.from.bikeRentalStation.bikesAvailable}`).
-                addTo(routeGroup);
-          } else {
-            marker1.
-                bindPopup(
-                    `<b>${leg.from.name}</b>`).
-                addTo(routeGroup);
-          }
-          if (!(leg.to.bikeRentalStation === null)) {
-            marker2.
-                bindPopup(
-                    `<b>${leg.to.name}</b><br/>Kaupunkipyöräasema<br/>Pyöriä: ${leg.to.bikeRentalStation.bikesAvailable}`).
-                addTo(routeGroup);
-          } else {
-            marker2.
-                bindPopup(
-                    `<b>${leg.to.name}</b>`).
-                addTo(routeGroup);
-          }
+        if (!(leg.from.bikeRentalStation === null)) {
+          marker1.
+              bindPopup(
+                  `<b>${leg.from.name}</b><br/>Kaupunkipyöräasema<br/>Pyöriä: ${leg.from.bikeRentalStation.bikesAvailable}`).
+              addTo(routeGroup);
+        } else {
+          marker1.
+              bindPopup(
+                  `<b>${leg.from.name}</b>`).
+              addTo(routeGroup);
+        }
+        if (!(leg.to.bikeRentalStation === null)) {
+          marker2.
+              bindPopup(
+                  `<b>${leg.to.name}</b><br/>Kaupunkipyöräasema<br/>Pyöriä: ${leg.to.bikeRentalStation.bikesAvailable}`).
+              addTo(routeGroup);
+        } else {
+          marker2.
+              bindPopup(
+                  `<b>${leg.to.name}</b>`).
+              addTo(routeGroup);
+        }
 
+        let leg_polyline = L.polyline([],
+            {
+              color: '#' + Math.floor(Math.random() * 16777215).toString(16),
+              weight: 7,
+            }).bindPopup(content).addTo(routeGroup);
 
-          let leg_polyline = L.polyline([],
-              {
-                color: '#' + Math.floor(Math.random()*16777215).toString(16),
-                weight: 7,
-              }).bindPopup(content).addTo(routeGroup);
-
-          let points = polyline.decode(leg.legGeometry.points);
-          for (let i = 0; i < points.length; i++) {
-            leg_polyline.addLatLng(L.latLng(points[i][0], points[i][1]));
-          }
-        });
+        let points = polyline.decode(leg.legGeometry.points);
+        for (let i = 0; i < points.length; i++) {
+          leg_polyline.addLatLng(L.latLng(points[i][0], points[i][1]));
+        }
       });
-    } else {
-      document.getElementById('tulos').innerText = 'Haku epäonnistui.';
-    }
+    });
   }
 }
 
