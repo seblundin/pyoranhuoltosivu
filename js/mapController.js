@@ -109,7 +109,7 @@ function haeTiedot(evt) {
       .catch(error => console.log(error));
 
   function naytaTulos2(json) {
-    //console.log(json[0]);
+    console.log(json);
 
     /*Asetetaan koordinaatit tavoitesijainnille*/
     targetLat = json[0].lat;
@@ -117,7 +117,10 @@ function haeTiedot(evt) {
 
     /*Resetoidaan reittimerkinnät*/
     routeGroup.clearLayers();
-
+    console.log(targetLat);
+    console.log(targetLon);
+    console.log(latitude);
+    console.log(longitude);
     /*Apipyyntö */
     fetch('https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql', {
       method: 'POST',
@@ -169,51 +172,56 @@ function haeTiedot(evt) {
     }`,
       }),
     }).then(res => res.json()).then(res => {
-      res.data.plan.itineraries[0].legs.forEach(leg => {
-        console.log(leg);
-        let content = new Date(leg.startTime).toLocaleTimeString() +
-            ' - ' + new Date(leg.endTime).toLocaleTimeString() + ':<br/>';
-        content += leg.from.name;
-        content += ' -> ';
-        content += leg.to.name;
+      if (!(res.data.plan.itineraries.length === 0)) {
+        console.log(res);
+        res.data.plan.itineraries[0].legs.forEach(leg => {
+          console.log(leg);
+          let content = new Date(leg.startTime).toLocaleTimeString() +
+              ' - ' + new Date(leg.endTime).toLocaleTimeString() + ':<br/>';
+          content += leg.from.name;
+          content += ' -> ';
+          content += leg.to.name;
 
-        let marker1 = L.marker([leg.from.lat, leg.from.lon]);
-        let marker2 = L.marker([leg.to.lat, leg.to.lon]);
+          let marker1 = L.marker([leg.from.lat, leg.from.lon]);
+          let marker2 = L.marker([leg.to.lat, leg.to.lon]);
 
-        if (!(leg.from.bikeRentalStation === null)) {
-          marker1.
-              bindPopup(
-                  `<b>${leg.from.name}</b><br/>Kaupunkipyöräasema<br/>Pyöriä: ${leg.from.bikeRentalStation.bikesAvailable}`).
-              addTo(routeGroup);
-        } else {
-          marker1.
-              bindPopup(
-                  `<b>${leg.from.name}</b>`).
-              addTo(routeGroup);
-        }
-        if (!(leg.to.bikeRentalStation === null)) {
-          marker2.
-              bindPopup(
-                  `<b>${leg.to.name}</b><br/>Kaupunkipyöräasema<br/>Pyöriä: ${leg.to.bikeRentalStation.bikesAvailable}`).
-              addTo(routeGroup);
-        } else {
-          marker2.
-              bindPopup(
-                  `<b>${leg.to.name}</b>`).
-              addTo(routeGroup);
-        }
+          if (!(leg.from.bikeRentalStation === null)) {
+            marker1.
+                bindPopup(
+                    `<b>${leg.from.name}</b><br/>Kaupunkipyöräasema<br/>Pyöriä: ${leg.from.bikeRentalStation.bikesAvailable}`).
+                addTo(routeGroup);
+          } else {
+            marker1.
+                bindPopup(
+                    `<b>${leg.from.name}</b>`).
+                addTo(routeGroup);
+          }
+          if (!(leg.to.bikeRentalStation === null)) {
+            marker2.
+                bindPopup(
+                    `<b>${leg.to.name}</b><br/>Kaupunkipyöräasema<br/>Pyöriä: ${leg.to.bikeRentalStation.bikesAvailable}`).
+                addTo(routeGroup);
+          } else {
+            marker2.
+                bindPopup(
+                    `<b>${leg.to.name}</b>`).
+                addTo(routeGroup);
+          }
 
-        let leg_polyline = L.polyline([],
-            {
-              color: '#' + Math.floor(Math.random() * 16777215).toString(16),
-              weight: 7,
-            }).bindPopup(content).addTo(routeGroup);
+          let leg_polyline = L.polyline([],
+              {
+                color: '#' + Math.floor(Math.random() * 16777215).toString(16),
+                weight: 7,
+              }).bindPopup(content).addTo(routeGroup);
 
-        let points = polyline.decode(leg.legGeometry.points);
-        for (let i = 0; i < points.length; i++) {
-          leg_polyline.addLatLng(L.latLng(points[i][0], points[i][1]));
-        }
-      });
+          let points = polyline.decode(leg.legGeometry.points);
+          for (let i = 0; i < points.length; i++) {
+            leg_polyline.addLatLng(L.latLng(points[i][0], points[i][1]));
+          }
+        });
+      } else {
+        alert('HSL ei löytänyt reittiä.');
+      }
     });
   }
 }
